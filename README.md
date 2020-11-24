@@ -29,3 +29,8 @@
     + Nós queremos que ao colocarmos o querySelector para o $, ele mantenha a associação com o document. Para isto, usaremos o bind()
     + Estamos informando que o querySelector irá para a variável $, mas ainda manterá uma associação com document
 
++ Para melhorar a performance evitando a leitura repetidas vezes do DOM
+    + Adicionaremos o constructor e moveremos os inputs para dentro dele. 
+    + Mas em vez de criarmos uma variável, criaremos atributos de instâncias com o this.
+    + Usaremos esta estratégia como se fosse um caching até o fim do curso.
+      
