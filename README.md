@@ -12,4 +12,20 @@
     + Quando alguém tentar acessar a data, nós retornaremos uma nova data. 
     + Fizemos o mesmo com o construtor e com isso, evitamos que alguém consiga de fora da classe alterar algum item do estado interno.
 
+### Aula 03
+
++ Criamos o construtor:
+    + Chamamos o event.preventDefault() para evitar recarregar o formulario (comportamento padrão) quando clicar no botão incluir (type=submit). 
+    + Com o event.preventDefault(), a controller cancelará a submissão do formulário para poder capturar os dados da negociação e incluir na lista. 
+    Ainda não colocamos constructor, porque a negociação ainda não tem nenhum atributo de classe.
+
++ No index.html dentro da tag <form>, adicionaremos **onsubmit** para submeter o formulário. E na instância de negociacaoController, chamaremos o método adiciona(event):
+    + Inspirado por framework como o AngularJS, por exemplo, que faz a associação de uma ação da controller utilizando um evento. 
+    + Usaremos isso, para escrever menos código na parte JavaScript. 
+    + Como nossa página é dependente de JS, podemos fazer isso facilmente
+    
++ Em JavaScript temos as First Class Functions, podemos declarar a variável $ - como usado no jQuery - e dentro, jogaremos o document.querySelector.
+    + Quando colocamos o querySelector dentro do $, ele passa a ser executado fora do contexto de document e isto não funciona.
+    + Nós queremos que ao colocarmos o querySelector para o $, ele mantenha a associação com o document. Para isto, usaremos o bind()
+    + Estamos informando que o querySelector irá para a variável $, mas ainda manterá uma associação com document
 
