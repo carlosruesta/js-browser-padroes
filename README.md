@@ -34,3 +34,11 @@
     + Mas em vez de criarmos uma variável, criaremos atributos de instâncias com o this.
     + Usaremos esta estratégia como se fosse um caching até o fim do curso.
       
+### Aula 05
+
++ Para calculo do footer precisamos de uma função que retorne um valor.
+    + Só que quando usamos uma instrução, não podemos adicionar uma sequência de instruções. 
+    + Seremos espertos e adicionaremos uma função dentro do $. 
+    + Utilizaremos uma **Immediately-invoked function expression (IIFE)** ou a **função imediata**. 
+    + Trata-se de um recurso usado na criação de escopo em JavaScript, que nos ajudará a colocar um bloco na expressão, sendo executado imediatamente. 
+    + No caso, o $ receberá o total.
