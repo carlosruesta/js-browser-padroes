@@ -1,12 +1,16 @@
-# js-browser-padroes
+# CURSO 1: Conhecendo o Browser e padrões de projeto
 
 ### Aula 02
 
 + Para criarmos uma classe, usamos a palavra reservada class seguida do nome da classe. Por convenção, nomes de classe começam em letra maiúscula. Curiosamente essa convenção se chama pascal case.
-+ Para definirmos atributos de instância de uma classe, precisamos adicionar em sua definição um constructor. É através do construtor que adicionamos na variável implícita this as propriedades que desejamos que toda instância da classe tenha.
-+ Por convenção, adotamos que os atributos privados devem usar o prefixo _ (underline), indicando para o desenvolvedor que ele só pode acessá-lo. Vimos como adicionar métodos nas classes, e estes, sim, podem acessar os atributos privados.
-+ Temos um método que conseguimos acessar como uma propriedade, bastando ser antecedido pela palavra especial get, desta forma, estaríamos gerando um getter. Quem acessa a sua classe acredita que se trata de uma propriedade, mas na verdade, trata-se por "debaixo dos panos" de um método.
-+ Usamos o Object.freeze() para congelar um objeto depois de criado. Como Object.freeze() é shallow (raso), ele será aplicado nas propriedades do objeto, mas as propriedades que são objetos não serão todas congeladas.
++ Para definirmos atributos de instância de uma classe, precisamos adicionar na sua definição um constructor. 
+    + É através do construtor que adicionamos na variável implícita this as propriedades que desejamos que toda instância da classe tenha.
++ Por convenção, adotamos que os atributos privados devem usar o prefixo _ (underline), indicando para o desenvolvedor que ele só pode acessá-lo. 
+    + Vimos como adicionar métodos nas classes, e estes, sim, podem acessar os atributos privados.
++ Temos um método que conseguimos acessar como uma propriedade, bastando ser antecedido pela palavra especial get, desta forma, estaríamos gerando um getter. 
+    + Quem acessa a sua classe acredita que se trata de uma propriedade, mas na verdade, trata-se por "debaixo dos panos" de um método.
++ Usamos o Object.freeze() para congelar um objeto depois de criado. 
+    + Como Object.freeze() é shallow (raso), ele será aplicado nas propriedades do objeto, as propriedades que são objetos não serão todas congeladas.
     + A ação ficará apenas na superfície. 
     + Para resolver esta questão, falamos um pouco sobre programação defensiva. 
     + Quando alguém tentar acessar a data, nós retornaremos uma nova data. 
@@ -42,3 +46,25 @@
     + Utilizaremos uma **Immediately-invoked function expression (IIFE)** ou a **função imediata**. 
     + Trata-se de um recurso usado na criação de escopo em JavaScript, que nos ajudará a colocar um bloco na expressão, sendo executado imediatamente. 
     + No caso, o $ receberá o total.
+
+# CURSO 2: Aprofundando em MVC, padrão Proxy e Factory
+
+### Aula 01
+ 
++ Implementamos uma forma de evitar chamar o método update do Model ListaNegociacoes;
+    + Para isso passamos como função a chamada de atualiza (chamada desde o Controller, no contexto do controller)
+    + O model vai receber essa funcao e executa-la toda vez que alguém chamar os métodos que alteram o model  
+    + Primeira implementacao: Usamos function()
+        + Passamos para o model o contexto e a funcao (function()). O contexto é o proprio controller, para ele nao se perder;
+        + A funcao recebe como parametro o model, para poder enviar ele como parametro no momento da execução;
+        + A function() tem um comportamento dinámico em relação ao contexto. Dado que estamos trabalhando com this... termina se perdendo um pouco. Por conta disso passamos o contexto;
+        + Para executar corretamente esta estrategia fazemos uso de Reflection
+            + ```Reflect.apply(this._armadilha, this._contexto, [this]);```
+            + O primeiro parametro é a função;
+            + O segundo parâmetro é o contexto;
+            + O terceiro parâmetro é o parâmetro da função que deve ser passado como array por conta do reflection;
+            
+    
+    
+
+
