@@ -54,17 +54,31 @@
 + Implementamos uma forma de evitar chamar o método update do Model ListaNegociacoes;
     + Para isso passamos como função a chamada de atualiza (chamada desde o Controller, no contexto do controller)
     + O model vai receber essa funcao e executa-la toda vez que alguém chamar os métodos que alteram o model  
+    
     + Primeira implementacao: Usamos function()
         + Passamos para o model o contexto e a funcao (function()). O contexto é o proprio controller, para ele nao se perder;
         + A funcao recebe como parametro o model, para poder enviar ele como parametro no momento da execução;
         + A function() tem um comportamento dinámico em relação ao contexto. Dado que estamos trabalhando com this... termina se perdendo um pouco. Por conta disso passamos o contexto;
-        + Para executar corretamente esta estrategia fazemos uso de Reflection
+        + Para executar corretamente esta estrategia fazemos uso da API de reflexão do JavaScript, Reflection API, usando reflect.apply()
             + ```Reflect.apply(this._armadilha, this._contexto, [this]);```
             + O primeiro parametro é a função;
             + O segundo parâmetro é o contexto;
             + O terceiro parâmetro é o parâmetro da função que deve ser passado como array por conta do reflection;
-            
-    
-    
+
+    + Segunda implementacao: Usamos arrow function  
+        + Arrow function não é apenas uma maneira sucinta de escrever uma função, ela também tem um característica peculiar: 
+            + O escopo de this é léxico, em vez de ser dinâmico como a outra função (function). 
+            + Isto significa que o this não mudará de acordo com o contexto. Ele mantem o contexto no momento da declaracao da arrow function 
+            + Da maneira como estruturamos o código, o this será NegociacaoController - 
+                + Esta condição será mantida independente do local em que chamemos a arrow function, porque ela está amarrada a um escopo imutável.
+                
+    + Então, o this de uma arrow function é léxico, enquanto o this de uma função padrão é dinâmico. 
+        Com esse ajuste, conseguimos deixar o nosso código mais sucinto.
+
++ O padrão de projeto Observer
+    + No final das contas estamos usando o padrão de projeto Observer 
+    + Sempre que queremos notificar partes do sistema interessadas quando um evento importante for disparado em nosso sistema.
+    + No contexto da nossa aplicação, entendemos um evento como o ato de adicionar ou esvaziar nossa lista de negociações. 
+    + É a view que está interessada em observar esse evento e tomar uma ação, no caso, se atualizar com base no estado mais atual do modelo.
 
 

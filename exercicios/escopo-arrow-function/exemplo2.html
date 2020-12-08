@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+<script>
+
+	// Exercicio 2
+	class SistemaImpressao {
+
+		constructor() {
+			this._codigo = 2;
+		}
+
+		imprime(nomes) {
+
+			nomes.forEach(nome => {
+				console.log(this);
+				console.log(`${this._codigo}: ${nome}`);
+			});
+		}
+	}
+
+	let nomes = ['Flávio', 'Nico', 'Douglas'];
+	let si = new SistemaImpressao();
+	si.imprime(nomes);
+
+	// Exercicio 3
+
+	class Relogio {
+
+		constructor() {
+			this._segundos = 0;
+
+			// Explicação:
+			// O principal erro deste código está na função passada para setInterval, aonde fazemos o ++this._segundos.
+			// Como setInterval é global e acessível em qualquer canto do nosso código, ele pertence ao objeto global window,
+			// logo seu this aponta para window e não para nossa classe Relogio.
+			// Como window não possui a propriedade _segundos, o incremento resultará em NaN, pois não podemos incrementar uma variável que é undefined.
+
+			setInterval(function () {
+				console.log(++this._segundos);
+			}, 1000);
+
+			// Uma maneira de resolver esse problema é guardando o this do constructor em uma variável, por exemplo, self e acessá-la quando necessário.
+			let self = this; // guardando o this que é a instância da classe `Relogio`
+			setInterval(function () {
+				console.log(++self._segundos); // acessando a variável self, que é a instância de `Relogio`
+			}, 1000);
+
+			// Contudo, usar arrow functions será mais interessante, pois além de nos fornecer uma sintaxe bastante enxuta, ainda possui escopo léxico, isto é, seu this é estático e não muda.
+
+			setInterval(() => console.log(++this._segundos), 1000);
+		}
+	}
+
+	var relogio = new Relogio();
+
+	// Exercicio 4
+	// Será que podemos atribuir uma arrow function para a propriedade acelera?
+	let carro = {
+		velocidade: 100,
+		acelera: () => {
+			console.log(this);
+			console.log(`Carro a ${this.velocidade} km por hora!`);
+		},
+		acelera2: function () {
+			console.log(this);
+			console.log(`Carro a ${this.velocidade} km por hora!`);
+		}
+	};
+	carro.acelera();
+	carro.acelera2();
+
+	// explicacao
+	// Como escrevemos nosso código dentro da tag script, não estamos dentro de um método ou de outra função, estamos no escopo de window
+	// ou seja, o escopo global.
+	// Lembre-se que o this de uma arrow function é léxico, isto é, estático e pega emprestado seu valor do ambiente no qual foi declarado.
+	// Como o this naquele ponto em que a arrow function foi declarada é window, seu valor será window.
+	// É claro que o escopo global não possui a propriedade velocidade.
+	// Veja que este é um exemplo no qual a arrow function atrapalha e que o uso de uma function tradicional é o mais indicado.
+	// O this de uma function é dinâmico e muda de acordo com o contexto de evocação da função.
+	// Como nossa função está sendo chamada a partir de um objeto, por padrão, o this dessa função será o objeto.
+
+	// Exercicio 5
+
+	let objeto1 = { nome: 'Bob' };
+	let objeto2 = { nome: 'Leo' };
+	function exibeNome() { alert(this.nome); }
+
+	// esses 2 vão mostrar undefined
+	exibeNome(objeto1);
+	exibeNome(objeto2);
+
+	// esses 2 vão mostrar Bob e Leo
+	Reflect.apply(exibeNome, objeto1, []); // exibe 'Bob'
+	Reflect.apply(exibeNome, objeto2, []); // exibe 'Leo'
+
+	// Uso de reflexion com parametros
+	function exibeNome2(prefixo, sufixo) {
+		alert(prefixo + this.nome + sufixo);
+	}
+	Reflect.apply(exibeNome2, objeto1, ['(', ')']); // exibe '(Bob)'
+	Reflect.apply(exibeNome2, objeto2, ['Pre-', '-Suf']); // exibe 'Leo'
+
+	// Uso de arrow function do jeito que seria na vida normal, rsrsrs
+	let exibeNome3 = (objeto, prefixo, sufixo) => alert(prefixo + objeto.nome + sufixo)
+	exibeNome3(objeto1, '(', ')'); // exibe '(Bob)'
+	exibeNome3(objeto2, 'Pre-', '-Suf'); // exibe 'Leo'
+
+	// Exercicio 6
+
+	class Aviao {
+		constructor(nome) {
+			this._nome = nome;
+		}
+		voa() {
+			alert(`${this._nome} está voando`);
+		}
+		ligaMotor() {
+			console.log('liga o motor');
+		}
+		fechaPortas() {
+			console.log('Portas sendo fechadas');
+		}
+	}
+
+	class Passarinho {
+		constructor(nome) {
+			this._nome = nome;
+
+			// Podemos usar composição no lugar de herança.
+			// Na composição, a classe que deseja usar o método de outra possui uma instância dessa classe.
+			// Por mais que a instância tenha vários métodos, só chamamos aqueles que nos interessa.
+			// Aqui guardamos uma instância de avião
+			this._aviao = new Aviao(nome);
+
+		}
+		voa() {
+			// hum..precisamos implementar esse método também!
+
+			// FORMA 1: usando a composição
+			// então como temos a composicao com avião podemos usa o método voa de Aviao
+			this._aviao.voa();
+
+			// FORMA 2: usando a Reflexion e Prototype
+			// Reutilização de código através de mixin!
+			// Com mixin podemos "pegar emprestado" o método de outra classe sem termos que ter
+			// uma instância dessa classe como é o caso de composição.
+			Reflect.apply(Aviao.prototype.voa, this, []);
+		}
+	}
+
+	let passaro = new Passarinho("Piolin");
+	passaro.voa();
+
+</script>
+</body>
+</html>
