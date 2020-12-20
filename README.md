@@ -100,4 +100,27 @@
     + O prop é a propriedade que está sendo lida.
     + O receiver é uma referência ao próprio proxy.  É na configuração do handler do Proxy que colocamos armadilhas.
     
-
+### Aula 03
++ Para evitar um código muito verboso nesta aula ocódigo para criação do Proxy foi transportado para uma factory;
+    + A factory terá todos os tratamentos tanto para armadilhas de métodos como de propriedades
+    + A factory criará metodo estático que será chamado desde o controller para criação dos proxies;
++ Ao criar esses proxies para ListaNegociacoes e Mensagem está se criando DATABIND (associacao de dados)
+    + No caso é uma associação entre o modelo e a view. Então toda vez que mudar o model deveria mudar também a view.
+    + Isso é chamado de databind unidirecional;
++ Usamos o REST OPERATOR para passar um array de parametros num único parametro
+    + Ao fazer isso evita mandar um array e o rest operator junta tudo na hora que recebe os parametros soltos;
+    + Mas sobre REST: utilizamos "..." antes do último parâmetro, e assim tudo que nós passarmos de "extra" será colocado dentro de um array 
++ Sobre o padrão de projeto Factory:
+    + Ele é utilizado quando precisamos facilitar a criação de um objeto.
+    + É ideal quando queremos criar objetos similares, com apenas seus detalhes diferentes, que podemos passar nos argumentos da Factory.
+    + É bom para abstrair a criação de um objeto complexo, já que o programador que utilizar a Factory não precisa necessariamente saber como é feita esta operação.
++ FACTORY METHOD: As fábricas não só fazem parte do nosso código, como também da API do JavaScript. Já existem várias classes que aproveitam esse padrão.
+    + Por exemplo, a classe String possui um método (ou factory method) para transformar vários CharCode em uma string:
+        + let abc = String.fromCharCode(65, 66, 67);  // "ABC"COPIAR CÓDIGO
+    + A classe Array pode receber uma string ou um iterável, como lista ou mapas, para criar um array:
+        + let d = Array.from("abc") => retorna ["a", "b", "c"]
++ Um FACTORY METHOD nem sempre precisa estar dentro de uma classe dedicada. 
+    + No exemplo desse exercício, não existe uma classe StringFactory ou ArrayFactory. 
+    + O método pode fazer parte da classe em questão.
+    + O factory method não precisa se chamar create ou constroi. Outros nomes são válidos, como from ou getInstance.
+    
