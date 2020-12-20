@@ -2,13 +2,18 @@ class ListaNegociacoes {
 
 	constructor(armadilha) {
 		// this._contexto = contexto;
-		this._armadilha = armadilha;
+		// this._armadilha = armadilha;
 		this._negociacoes = [];
 	}
 
 	adiciona(negociacao) {
 		this._negociacoes.push(negociacao);
-		this._armadilha(this);
+
+		// essa aqui seria uma gambiarra para fazer uma atribuicao na this._negociacoes
+		// mas seria um codigo que traria complicacoes de performance, alem de ser bem feio
+		// this._negociacoes = [].concat(this._negociacoes, negociacao);
+
+		// this._armadilha(this);
 		// Reflect.apply(this._armadilha, this._contexto, [this]);
 	}
 
@@ -21,7 +26,7 @@ class ListaNegociacoes {
 
 	esvazia() {
 		this._negociacoes = [];
-		this._armadilha(this);
+		// this._armadilha(this);
 		// Reflect.apply(this._armadilha, this._contexto, [this]);
 	}
 }

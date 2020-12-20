@@ -81,4 +81,23 @@
     + No contexto da nossa aplicação, entendemos um evento como o ato de adicionar ou esvaziar nossa lista de negociações. 
     + É a view que está interessada em observar esse evento e tomar uma ação, no caso, se atualizar com base no estado mais atual do modelo.
 
+### Aula 02
+
++ Nesta segunda aula teremos como objetivo tirar a armadilha do nosso model ListaNegociacoes 
+    + A armadilha é um código de infraestrutura orientado a resolver um problema da view e está dentro do nosso model;
+    + Isso será evitado agora e passaremos e tentaremos utilizar o padrão de projeto PROXY
++ O Proxy neste caso será um cara que tratará com o objeto (objeto puro) e aplicará as mudanças necessárias sem afetar o modelo original;
+    + A intenção aqui é colocar as armadilhas entre os métodos do objeto real e a implementação do método no proxy;
++ O padrão de projeto Proxy nada mais é do que um objeto "falso", "mentiroso", que envolve e encapsula o objeto real que queremos interagir. 
+    + É como se fosse uma interface, entre o objeto real e o resto do código. 
+    + Conseguimos assim controlar o acesso aos seus atributos e métodos. 
+    + Nele também podemos pendurar códigos que não cabem de estar alocados nos nossos modelos, 
+        mas que necessitam ser executados no caso de uma alteração ou atualização do mesmo.
+
++ get(target, prop, receiver) {}
+    + O target é o objeto real, que é encapsulado pelo proxy.
+        + É este objeto que não queremos "sujar" com armadilhas ou qualquer código que não diga respeito ao modelo.
+    + O prop é a propriedade que está sendo lida.
+    + O receiver é uma referência ao próprio proxy.  É na configuração do handler do Proxy que colocamos armadilhas.
+    
 

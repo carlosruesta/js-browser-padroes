@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+<script src="../../client/js/app/models/Negociacao.js"></script>
+<script src="../../client/js/app/models/ListaNegociacoes.js"></script>
+
+<script>
+	// let negociacaoOriginal = new Negociacao(new Date(), 1, 100);
+	//
+	// // o segundo parametro é o handler
+	// let negociacaoProxy = new Proxy(negociacaoOriginal, {});
+	//
+	// // console.log(negociacaoProxy);
+	// // console.log(negociacaoProxy.valor);
+	// // console.log(negociacaoProxy.quantidade);
+	// // console.log(negociacaoProxy.volume);
+	//
+	// // Abaixo a boa pratica para evitar que o objeto real exista e seja utilizado em parelelo com o proxy
+	// // o segundo parametro é o handler que permitirá incluir as armadilhas
+	// // new Proxy(objetoReferencia, handler);
+	//
+	// let negociacaoLeitura = new Proxy(new Negociacao(new Date(), 2, 100), {
+	//
+	// 	// para acessar para leitura é possivel implementar a function get e lêr as propriedades do objeto
+	// 	// target : objeto real
+	// 	// prop: propriedade acessada
+	// 	// receiver: referencia ao proxy
+	// 	get: function(target, prop, receiver) {
+	// 		console.log(`a propriedade "${prop}" foi interceptada`);
+	// 		// forma simples que eu faria no meu codigo
+	// 		// return target[prop];
+	//
+	// 		// forma complexa apresentada no curso
+	// 		return Reflect.get(target, prop, receiver);
+	// 	}
+	//
+	// });
+	//
+	// console.log(negociacaoLeitura.quantidade);
+	// console.log(negociacaoLeitura.valor);
+	//
+	// let negociacaoEscrita = new Proxy(new Negociacao(new Date(), 2, 200), {
+	//
+	// 	// para acessar para leitura é possivel implementar a function get e lêr as propriedades do objeto
+	// 	// target : objeto real
+	// 	// prop: propriedade acessada
+	// 	// receiver: referencia ao proxy
+	// 	set: function(target, prop, value, receiver) {
+	// 		console.log(`Propriedade alterada: ${prop}. Valor anterior ${target[prop]} - Novo valor: ${value}`);
+	// 		// forma simples que eu faria no meu codigo
+	// 		target[prop] = value;
+	//
+	// 		// forma complexa apresentada no curso usando Reflection
+	// 		// forma complexa apresentada no curso usando Reflection
+	// 		//Reflect.get(target, prop, value, receiver);
+	// 	}
+	// });
+	//
+	// negociacaoEscrita._quantidade = 10;
+	// negociacaoEscrita._valor = 100;
+	// console.log(negociacaoEscrita.volume);
+	//
+	// let lista1 = new Proxy(new ListaNegociacoes(), {
+	// 	set: function(target, prop, value, receiver) {
+	// 		console.log(`Propriedade alterada: ${prop}. Valor anterior ${target[prop]} - Novo valor: ${value}`);
+	// 		Reflect.set(target, prop, value, receiver);
+	// 	}
+	// });
+
+	const lista2 = new Proxy(new ListaNegociacoes(), {
+		get: function(target, prop, receiver) {
+			if(['adiciona', 'esvazia'].includes(prop) && typeof(target[prop]) === typeof(Function)) {
+				console.log(`a propriedade "${prop}" foi interceptada`);
+				Reflect.apply(target[prop], target, arguments);
+			}
+			return Reflect.get(target, prop, receiver);
+		}
+	});
+
+	console.log(typeof (lista2.adiciona));
+	lista2.adiciona(new Negociacao(new Date(), 1, 100));
+	lista2.esvazia();
+
+	let funcionario = {email: 'abc@abc.com'};
+
+	let funcionarioProxy = new Proxy(funcionario, {
+		get: function (target, prop, receiver) {
+			console.log(` Valor original no get ${target[prop]}`);
+			console.log(`Armadilha aqui de get`);
+			return `**${Reflect.get(target, prop, receiver)}**`;
+		},
+		set: function (target, prop, value, receiver) {
+			console.log(` Valor anterior no set ${target[prop]}`);
+			console.log(`Armadilha aqui de set`);
+			return Reflect.set(target, prop, value, receiver);
+		}
+	})
+
+	funcionarioProxy.email = 'xyz@xyz.com';
+	console.log(funcionarioProxy.email);
+
+
+	// class Funcionario {
+	//
+	// 	constructor(email) {
+	// 		this._email = email;
+	// 	}
+	//
+	// 	get email() {
+	// 		return this._email;
+	// 	}
+	//
+	// 	set email(email) {
+	// 		this._email = email;
+	// 	}
+	// }
+	//
+	// let funcionarioProxy2 = new Proxy(new Funcionario('abc@abc.com'), {
+	// 	get: function (target, prop, receiver) {
+	// 		console.log('Armadilha aqui');
+	// 		return Reflect.get(target, prop, receiver);
+	// 	}
+	// });
+	//
+	// console.log(funcionarioProxy2.email);
+
+</script>
+</body>
+</html>
