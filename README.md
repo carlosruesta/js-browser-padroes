@@ -124,3 +124,26 @@
     + O método pode fazer parte da classe em questão.
     + O factory method não precisa se chamar create ou constroi. Outros nomes são válidos, como from ou getInstance.
     
+### Aula 04
++ Implementaremos requisições AJAX na mão => Para isso usaremos XMLHttpRequest
++ Toda requisição AJAX passa por estados. Num desses estados a requisição nos entregará os dados retornados do servidor. 
++ Por isso, precisamos interagir com esses estados e especificar que adicionaremos os dados de um deles no nosso model. 
++ O xhr tem o evento *onreadystatechange* que dispara toda vez que muda o estado do XHR (Ajax)
++ Esse evento pode ser programado passando para ele uma arrow funtion que será chamada sempre que o estado do xhr for modificado.
++ Estados possíveis de um requisição AJAX? Listaremos abaixo os estados:
+    + UNSENT = 0        XMLHttpRequest foi criado. Mas o método open() não foi chamado ainda. A requisição ainda não iniciada. 
+    + OPENED = 1        O método open() foi invocado. A conexão com o servidor estabelecida. 
+                        Durante esse estado, os headers da requisição podem ser inseridos usando o método setRequestHeader() 
+                        e o método send() pode ser chamado, iniciando a busca.
+    + HEADERS_RECEIVED = 2      O método send() foi chamado. A requisição foi recebida e os cabeçalhos de respostas foram recebidos.
+    + LOADING = 3       Processando a requisição. A resposta da requisição está sendo recebida. 
+                        Se o responseType for "text" ou  um texto em branco, o responseText terá o texto parcial da resposta conforme seu carregamento.
+    + DONE = 4          A requisição está concluída e a resposta está pronta.
+                        Isso pode significar que a transferência foi concluída com êxito ou que falhou.
+                        
++ Error-first Callback 
+    + É um padrão que foi adotado no mundo Node.js. 
+    + O callback é uma função chamada quando uma tarefa for executada, como uma requisição Ajax ou o acesso ao banco de dados. 
+    + Dado que a qualquer momento pode acontecer um erro no processamento e aí vem a questão de como lidar com isso.
+    + A convenção é que cada callback receba sempre o erro no primeiro parâmetro. 
+    + Na função callback, basta então verificar esse parâmetro para saber se ocorreu um erro ou não!
