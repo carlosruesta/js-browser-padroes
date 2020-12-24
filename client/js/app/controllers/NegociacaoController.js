@@ -32,19 +32,37 @@ class NegociacaoController {
 	importaNegociacoes() {
 		let service = new NegociacaoService();
 
-		/** Essa chamada precisará passar a callback para o service
-		* A função callback continuará o processamento após a execução do service **/
-		service.obterNegociacoesDaSemana(
-			(erro, negociacoes) => {
-				if (erro) {
-					this._mensagem.texto = erro;
-					return;
-				}
+		/** MULTIPLAS PROMESSAS COM ORDEM DE EXECUÇÃO **/
+		service.obterNegociacoes()
+			.then(negociacoes => {
+				negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
+				this._mensagem.texto = 'Negociações obtidas com sucesso';
+			})
+			.catch(erro => this._mensagem.texto = erro);
 
-				negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-				this._mensagem.texto = 'Negociações importadas com sucesso';
-			}
-		);
+		/** PROMESA UNICA **/
+		// let promise = service.obterNegociacoesDaSemana();
+		// promise
+		// 	.then(negociacoes => {
+		// 		negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
+		// 		this._mensagem.texto = 'Negociação da semana obtida com sucesso';
+		// 	})
+		// 	.catch(erro => this.mensagem.texto = erro);
+
+		/** USANDO CALLBACK **/
+		// /** Essa chamada precisará passar a callback para o service
+		// * A função callback continuará o processamento após a execução do service **/
+		// service.obterNegociacoesDaSemana(
+		// 	(erro, negociacoes) => {
+		// 		if (erro) {
+		// 			this._mensagem.texto = erro;
+		// 			return;
+		// 		}
+		//
+		// 		negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+		// 		this._mensagem.texto = 'Negociações importadas com sucesso';
+		// 	}
+		// );
 	}
 
 	_criaNegociacao() {

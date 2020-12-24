@@ -147,3 +147,28 @@
     + Dado que a qualquer momento pode acontecer um erro no processamento e aí vem a questão de como lidar com isso.
     + A convenção é que cada callback receba sempre o erro no primeiro parâmetro. 
     + Na função callback, basta então verificar esse parâmetro para saber se ocorreu um erro ou não!
+    
+### Aula 05
+
++ Pyramid of Doom (pirâmide da desgraça) e
+    + Quando temos uma função aninhada dentro de outra. 
+    + A pirâmide é um forte indício de que temos problemas de legibilidade do código, na verdade, é o sintoma de um problema maior, **o Callback Hell**. 
++ Callback Hell
+    + Ocorre quando temos requisições assíncronas executadas em determinada ordem, que chama vários callbacks seguidos.
+    + Vale ressaltar: em uma situação de erro seria complicado o tratamento do erro.
++ Padrão de projeto chamado Promessa (Promise, em inglês)    
+    + Servirá para lidar com a complexidade da programação assíncrona.
+    + O ES6 suporta a promise nativamente, então, o método deverá retornar uma Promise(), que receberá dois parâmetros ( resolve e reject). 
+    + Padrão básico de uma promesa:
+        + new Promise(() => {});
+        + A função passada como parâmetro recebe 2 parâmetros: resolve e reject
+          new Promise((resolve, reject) => {});
+    + Para capturar a resposta de uma promise:
+      + minhaPromessa
+          .then(mensagem => console.log(mensagem))
+          .catch(erro => console.log(erro));
++ Uso de Promise.all([])
+    + Todas as promises do array serão exibidos na sequência e o resultado estará em um array de resultados
+    + Em caso de erro, ele será capturado uma única vez.
++ Criação de um HttpService que trata centraliza as chamadas de XMLHttpRequest e pode ser utilizado para centralizar 
+as chamadas de tipo POST, PUT, DELETE     
