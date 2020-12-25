@@ -29,6 +29,7 @@
 </form>
 
 <script src="js/app/helpers/DateHelper.js"></script>
+<script src="js/app/services/HttpService.js"></script>
 <script>
 
 	function sendPost(event) {
@@ -53,34 +54,41 @@
 
 		//enviar o XMLHttpRequest
 
-		let xhr = new XMLHttpRequest();
+		// let xhr = new XMLHttpRequest();
+		//
+		// xhr.open('POST', '/negociacoes');
+		// xhr.setRequestHeader("Content-type", "application/json");
+		//
+		// /** Aqui estou definindo o que acontece ao mudar de status o XHR
+		//  * É um tratador do evento onreadystatechange **/
+		// xhr.onreadystatechange = () => {
+		//
+		// 	/** Aqui somente estamos validando o status da requisição Ajax **/
+		// 	if (xhr.readyState === XMLHttpRequest.DONE) {
+		//
+		// 		/** Aqui estamos validando o status da resposta
+		// 		 * Para garantir que a resposta foi com sucesso preciso verificar o status da resposta.
+		// 		 * Isso é o que o servidor me disse ao processar a requisição **/
+		//
+		// 		if (xhr.status === 200) {
+		// 			inputData.value = '';
+		// 			inputQuantidade.value = 1;
+		// 			inputValor.value = 0.0;
+		// 			inputData.focus();
+		// 			alert('Negociação enviada com sucesso');
+		// 		} else {
+		// 			alert(`Não foi possível enviar a negociação: ${xhr.responseText}`);
+		// 		}
+		// 	}
+		// };
+		// xhr.send(JSON.stringify(negociacao));
 
-		xhr.open('POST', '/negociacoes');
-		xhr.setRequestHeader("Content-type", "application/json");
-
-		/** Aqui estou definindo o que acontece ao mudar de status o XHR
-		 * É um tratador do evento onreadystatechange **/
-		xhr.onreadystatechange = () => {
-
-			/** Aqui somente estamos validando o status da requisição Ajax **/
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-
-				/** Aqui estamos validando o status da resposta
-				 * Para garantir que a resposta foi com sucesso preciso verificar o status da resposta.
-				 * Isso é o que o servidor me disse ao processar a requisição **/
-
-				if (xhr.status === 200) {
-					inputData.value = '';
-					inputQuantidade.value = 1;
-					inputValor.value = 0.0;
-					inputData.focus();
-					alert('Negociação enviada com sucesso');
-				} else {
-					alert(`Não foi possível enviar a negociação: ${xhr.responseText}`);
-				}
-			}
-		};
-		xhr.send(JSON.stringify(negociacao));
+		let httpService = new HttpService();
+		httpService.post('/negociacoes', negociacao)
+			.then(resposta => console.log(resposta))
+			.catch(erro => {
+				console.log(erro)
+			});
 	}
 </script>
 </body>
