@@ -172,3 +172,18 @@
     + Em caso de erro, ele será capturado uma única vez.
 + Criação de um HttpService que trata centraliza as chamadas de XMLHttpRequest e pode ser utilizado para centralizar 
 as chamadas de tipo POST, PUT, DELETE     
+
+# CURSO 3: Salvando dados localmente com IndexedDB
+
+### Aula 01 - Guardando negociações offline com IndexedDB
+
++ Objeto **window** =>  escopo global do JavaScript
++ IndexedDB é o banco de dados do JavaScript
++ No console: window.indexedDB
+    + Retorna: IDBFactory {}        
+    + Trata-se de uma "fábrica" para criarmos bancos no IndexedDB - temos a opção de acessá-lo também diretamente.
++ Uso do método indexedDB.open() que retorna uma instância de IDBOpenDBRequest. É uma requisição de abertura do banco.
+    + Precisaremos lidar com um tríade de eventos disparados quando tentarmos acessar um banco no IndexedDB.
+        + onupgradeneeded   =>  evento dispara quando cria ou altera um banco já existente
+        + onsuccess         =>  evento dispara quando conecta com o banco
+        + onerror           =>  evento dispara quando acontece um erro de conexão ou criação do banco

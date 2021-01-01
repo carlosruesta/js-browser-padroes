@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script>
+
+	// O método indexedDB.open() retorna uma instância de IDBOpenDBRequest, ou seja, uma requisição de abertura do banco.
+	var openRequest = window.indexedDB.open("aluraframe",1);
+
+	// Precisaremos lidar com um tríade de eventos disparados quando tentarmos acessar um banco no IndexedDB.
+
+	openRequest.onupgradeneeded = evento => {
+		console.log(evento);
+		console.log('Cria ou altera um banco já existente');
+	};
+
+	openRequest.onsuccess = evento => {
+		console.log(evento);
+		console.log('Conexão obtida com sucesso');
+	};
+
+	openRequest.onerror = evento => {
+		console.log(evento);
+		console.log(evento.target.error);
+	};
+
+</script>
+</body>
+</html>
