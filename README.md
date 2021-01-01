@@ -178,7 +178,7 @@ as chamadas de tipo POST, PUT, DELETE
 ### Aula 01 - Guardando negociações offline com IndexedDB
 
 + Objeto **window** =>  escopo global do JavaScript
-+ IndexedDB é o banco de dados do JavaScript
++ IndexedDB é o banco de dados do JavaScript, acessado pelo escopo global **window**
 + No console: window.indexedDB
     + Retorna: IDBFactory {}        
     + Trata-se de uma "fábrica" para criarmos bancos no IndexedDB - temos a opção de acessá-lo também diretamente.
@@ -187,3 +187,4 @@ as chamadas de tipo POST, PUT, DELETE
         + onupgradeneeded   =>  evento dispara quando cria ou altera um banco já existente
         + onsuccess         =>  evento dispara quando conecta com o banco
         + onerror           =>  evento dispara quando acontece um erro de conexão ou criação do banco
+    + Uso de createObjectStore() para criar as "tabelas" ou repositorios de dados propriamente ditos
