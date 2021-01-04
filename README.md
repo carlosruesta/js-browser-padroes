@@ -188,3 +188,9 @@ as chamadas de tipo POST, PUT, DELETE
         + onsuccess         =>  evento dispara quando conecta com o banco
         + onerror           =>  evento dispara quando acontece um erro de conexão ou criação do banco
     + Uso de createObjectStore() para criar as "tabelas" ou repositorios de dados propriamente ditos
+
+### Aula 02 - Criando o ConnectionFactory.js
+
++ O ConnectionFactory permite criar conexões únicas, permite o unico camionho para fechar a conexão.
++ Foram implementados padrões Module Pattern e Monkey Patch
++ Ainda foram utilizadas IIFE => função anônima que se invoca automaticamente; 
