@@ -77,6 +77,51 @@ class NegociacaoService {
 		return resposta.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor));
 	}
 
+	cadastra(negociacao) {
+		return ConnectionFactory
+			.getConnection()
+			.then(conexao => new NegociacaoDao(conexao))
+			.then(dao => dao.adiciona(negociacao))
+			.then(() => "Negociação adicionada com sucesso!")
+			.catch(erro => {
+				throw new Error("Não foi possível adicionar a negociação")
+			});
+	}
+
+	lista() {
+		return ConnectionFactory
+			.getConnection()
+			.then(connection => new NegociacaoDao(connection))
+			.then(dao => dao.listaTodos())
+			.catch(erro => {
+				throw new Error(erro);
+			});
+	}
+
+	apaga() {
+		return ConnectionFactory
+			.getConnection()
+			.then(conexao => new NegociacaoDao(conexao))
+			.then(dao => dao.apagaTodos())
+			.catch(erro => {
+				console.log(erro);
+				throw new Error("Não foi possível apagar as negociações");
+			});
+	}
+
+	importa(listaNegociacoes) {
+		return this.obterNegociacoes()
+			.then(negociacoes =>
+				negociacoes.filter(negociacao =>
+					!listaNegociacoes.some(negociacaoExistente =>
+						negociacao.isEquals(negociacaoExistente)))
+			)
+			.catch(erro => {
+				console.log(erro);
+				throw new Error("Não foi possível obter as negociações;");
+			});
+	}
+
 	/** IMPLEMENTANDO AS PROMESAS SEM CUIDAR DA DUPLICACAO DE CODIGO **/
 
 	/**

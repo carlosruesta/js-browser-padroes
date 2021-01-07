@@ -21,14 +21,21 @@ class NegociacaoController {
 			new MensagemView($('#mensagemView')),
 			'texto');
 
+		this._service = new NegociacaoService();
 
-		ConnectionFactory
-			.getConnection()
-			.then(connection => new NegociacaoDao(connection))
-			.then(dao => dao.listaTodos())
-			.then(negociacoes => negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao)))
+		this._init();
+	}
+
+	_init() {
+		this._service.lista()
+			.then(negociacoes =>
+				negociacoes.forEach(negociacao =>
+					this._listaNegociacoes.adiciona(negociacao)))
 			.catch(erro => this._mensagem.texto = erro);
 
+		setInterval(() => {
+			this.importaNegociacoes();
+		}, 3000);
 	}
 
 	adiciona(event) {
@@ -36,23 +43,21 @@ class NegociacaoController {
 
 		let negociacao = this._criaNegociacao();
 
-		ConnectionFactory
-			.getConnection()
-			.then(conexao => new NegociacaoDao(conexao))
-			.then(dao => dao.adiciona(negociacao))
-			.then(() => {
+		this._service
+			.cadastra(negociacao)
+			.then(mensagem => {
 				this._listaNegociacoes.adiciona(negociacao);
-				this._mensagem.texto = "Negociação adicionada com sucesso!";
+				this._mensagem.texto = mensagem;
 				this._limpaFormulario();
 			})
 			.catch(erro => this._mensagem.texto = erro);
 	}
 
 	importaNegociacoes() {
-		let service = new NegociacaoService();
 
 		/** MULTIPLAS PROMESSAS COM ORDEM DE EXECUÇÃO **/
-		service.obterNegociacoes()
+		this._service
+			.importa(this._listaNegociacoes.negociacoes)
 			.then(negociacoes => {
 				negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao))
 				this._mensagem.texto = 'Negociações obtidas com sucesso';
@@ -101,10 +106,8 @@ class NegociacaoController {
 
 	apagaNegociacoes() {
 
-		ConnectionFactory
-			.getConnection()
-			.then(conexao => new NegociacaoDao(conexao))
-			.then(dao => dao.apagaTodos())
+		this._service
+			.apaga()
 			.then(mensagem => {
 				this._mensagem.texto = mensagem;
 				this._listaNegociacoes.esvazia();

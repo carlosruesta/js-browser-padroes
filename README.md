@@ -169,7 +169,9 @@
           .catch(erro => console.log(erro));
 + Uso de Promise.all([])
     + Todas as promises do array serão exibidos na sequência e o resultado estará em um array de resultados
+        + O array de resultados somente é preenchido se TODAS as promises deram certo
     + Em caso de erro, ele será capturado uma única vez.
+        + O erro corresponde à primeira promise que deu errado.
 + Criação de um HttpService que trata centraliza as chamadas de XMLHttpRequest e pode ser utilizado para centralizar 
 as chamadas de tipo POST, PUT, DELETE     
 
@@ -202,7 +204,22 @@ as chamadas de tipo POST, PUT, DELETE
     + Toda vez que o desenvolvedor precisar realizar operações de persistência ele verá que existe um único local para isso, seus DAO's.
     + DAO faz parte da camada de persistência, funciona como uma fachada para a API do IndexedDB. 
     + Repare que para usar o DAO não é preciso saber os detalhes do store ou cursor, request
-+ Uso aninhado de Promises
++ Uso aninhado de Promises "PRIMISES CHAINNING"
     + Neste capitulo aprimoramos o uso de promisees. Todos os realcionamentos com o exterior estão sendo feito usando promises
     + O uso de promises aninhadas é super interessantes
     + Alem de melhorar a visibilidade do código, permite que ter um único catch que resolve para todos os then
+    
+### Aula 04 - Lapidando aplicação
+
++ Importação de negociações. Vamos implementar mecanismos que evitem a duplicando das negociações.
+    + 1ra tentativa: antes de adicionar, procurar negociacao dentro da listaNegociacoes usando IndexOf() --> não atende
+    + 2da tentativa: converter objeto em string usando JSON.stringfy() para facilitar a comparação
+        + Aqui poderia ser feito um código para percorrer a listaNegociacoes toda vez que adicionar uma negociacao
+    + 3ra tentativa: Usar método some() que todo array. Esse método 'some' faz exatamente o que precisamos;
+    
++ Função SOME
+    + A função some itera sobre o array, assim como forEach, filter e map. 
+    + No entanto, seu retorno é true ou false. 
+    + Ela retorna true logo assim que encontrar o primeiro elemento que for condizente com o critério de comparação utilizado. 
+    + Quando dizemos, "logo assim", significa que a função parará de iterar nos elementos da lista, 
+        porque já encontrou pelo menos algum (some) que atenda ao critério.
