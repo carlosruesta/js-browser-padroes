@@ -194,3 +194,15 @@ as chamadas de tipo POST, PUT, DELETE
 + O ConnectionFactory permite criar conexões únicas, permite o unico camionho para fechar a conexão.
 + Foram implementados padrões Module Pattern e Monkey Patch
 + Ainda foram utilizadas IIFE => função anônima que se invoca automaticamente; 
+
+### Aula 03 - Implementando o padrão DAO
+
++ O padrão DAO
+    + A vantagem está ligada com a capacidade de isolar todo o código que acessa seu repositório de dados em um único lugar. 
+    + Toda vez que o desenvolvedor precisar realizar operações de persistência ele verá que existe um único local para isso, seus DAO's.
+    + DAO faz parte da camada de persistência, funciona como uma fachada para a API do IndexedDB. 
+    + Repare que para usar o DAO não é preciso saber os detalhes do store ou cursor, request
++ Uso aninhado de Promises
+    + Neste capitulo aprimoramos o uso de promisees. Todos os realcionamentos com o exterior estão sendo feito usando promises
+    + O uso de promises aninhadas é super interessantes
+    + Alem de melhorar a visibilidade do código, permite que ter um único catch que resolve para todos os then

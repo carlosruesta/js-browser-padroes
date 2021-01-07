@@ -28,6 +28,7 @@ var ConnectionFactory =  (() => {
 					connection.close = function () {
 						throw new Error("Você não pode fechar diretamente a conexão");
 					}
+					// reject("Erro na conexão");
 					resolve(connection);
 				};
 
