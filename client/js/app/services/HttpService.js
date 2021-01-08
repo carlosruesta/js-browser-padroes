@@ -1,6 +1,28 @@
 class HttpService {
 
-	get (url) {
+	_handleErrors(res) {
+		if (!res.ok) throw new Error(res.statusText);
+		return res;
+	}
+
+	get(url) {
+		return fetch(url)
+			.then(res => this._handleErrors(res))
+			.then(res => res.json());
+	}
+
+	post(url, dado) {
+		let init = {
+			headers: { 'Content-Type': 'application/json' },
+			method: 'post',
+			body: JSON.stringify(dado)
+		};
+
+		return fetch(url, init)
+			.then(res => this._handleErrors(res));
+	}
+
+	getWithAjax (url) {
 
 		return new Promise((resolve, reject) => {
 
@@ -27,7 +49,7 @@ class HttpService {
 		});
 	}
 
-	post(url, dado) {
+	postWithAjax (url, dado) {
 
 		return new Promise((resolve, reject) => {
 

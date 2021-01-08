@@ -85,9 +85,13 @@
 
 		let httpService = new HttpService();
 		httpService.post('/negociacoes', negociacao)
-			.then(resposta => console.log(resposta))
+			.then(resposta => {
+				console.log(resposta);
+				alert('Negociação enviada com sucesso');
+			})
 			.catch(erro => {
-				console.log(erro)
+				console.log(erro);
+				alert(`Não foi possível enviar a negociação: ${erro}`);
 			});
 	}
 </script>

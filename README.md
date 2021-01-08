@@ -223,3 +223,13 @@ as chamadas de tipo POST, PUT, DELETE
     + Ela retorna true logo assim que encontrar o primeiro elemento que for condizente com o critério de comparação utilizado. 
     + Quando dizemos, "logo assim", significa que a função parará de iterar nos elementos da lista, 
         porque já encontrou pelo menos algum (some) que atenda ao critério.
+        
+### Aula 05 - Uso de Fetch Api
+
++ A Fetch API usa o padrão de projeto promise.
+    + Podemos encadear chamadas do .then, inclusive tratar erros com .catch.
++ Existem polyfis disponíveis na internet que garantem a presença da Fetch API em navegadores que não a suportam, mas é importante que o navegador suporte no mínimo a API de promise.
+    + Programadores front-end têm ficado cada vez mais interessados nessa API, ao ponto de utilizá-la em seus projetos, tudo com auxílio de um polyfill.
++ Por mais que seja utilizada por muitos desenvolvedores, a Fetch API ainda está sujeita a mudanças, pois é experimental ainda (pelo menos até agosto/2016).
+    + O fato de ser experimental não afastou os desenvolvedores e muitos deles usam um polyfill para suportar esse recurso em navegadores que não o suportam. 
+    + Mas é importante estar atento que o browser precisa suportar promises.
