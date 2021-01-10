@@ -233,3 +233,71 @@ as chamadas de tipo POST, PUT, DELETE
 + Por mais que seja utilizada por muitos desenvolvedores, a Fetch API ainda está sujeita a mudanças, pois é experimental ainda (pelo menos até agosto/2016).
     + O fato de ser experimental não afastou os desenvolvedores e muitos deles usam um polyfill para suportar esse recurso em navegadores que não o suportam. 
     + Mas é importante estar atento que o browser precisa suportar promises.
+    
+### Aula 06 - Uso de transpile - Babel
+
++ 
+
++ EcmaScript 2009 = ES5 (muito antigo)
++ EcmaScript 2015 = ES6 (muitas novidades como classes, promisses, let, const, arrow functions, rest parameters, etc)
+
++ **Inspiração**
++ Durante todo o treinamento usufruímos como desenvolvedores dos recursos do ES2015 visando a escrita de um código mais elegante e mais fácil de manter. 
++ Não é raro o próprio desenvolvedor se questionar sobre a compatibilidade do seu código em relação aos seus usuários ou visitantes do site.
++ O desenvolvedor tem que se equilibrar na balança que ora pesa para o lado do que há de mais moderno da linguagem e ora para a questão de compatibilidade.
++ Para solucionar os problemas de compatibilidade e ainda permitir que o desenvolvedor utilize o que há de mais moderno da linguagem JavaScript 
+    foram criados compiladores de código fonte para código fonte comumente chamados de transcompiladores (transpilers). 
++ A ideia é compilarmos um código-fonte escrito em ES2015 para ES5, garantindo a compatibilidade em diferentes tipos de browsers.
++ O resultado da transcompilação pode variar de transpiler para transpiler, mas o resultado final deve ser idêntico à funcionalidade original do código em ES2015. 
++ Inclusive não é raro o resultado da transcompilação para ES5 resulte em um código muito mais verboso.
++ O processo de transcompilação normalmente não é feito manualmente, mas por meio de ferramentas que tornam transparentes esse processo para o desenvolvedor
++ Evitando assim erros oriundos do esquecimento da compilação deste ou daquele arquivo que foi atualizado
+
++ **Babel** 
+    + Possui recursos nativos que permitem o monitoramento e compilação de scripts de maneira automática, sem a intervenção do desenvolvedor.
+        + O binário do Babel possui o modo watch que monitora mudanças de arquivo e quando configurado corretamente permite compilar nossos script sem que o desenvolvedor assuma essa responsabilidade.
+    + Babel é um módulo do Node.js e depende dele para funcionar.
+        + Ele é baixado através do npm, o gerenciador de pacotes da plataforma Node.js.
+    + Babel é uma ferramenta que pode ser facilmente incluída em seu workflow de desenvolvimento. Mas como qualquer ferramenta, precisa ser configurada.
+    + Configurações específicas do Babel ficam no arquivo oculto .babelrc.
+    + Babel é ma ferramenta que traduz um código em outro, contudo ela não esta preparada gerar a conversão de qualquer código. 
+        + Por isso é preciso instalar um preset para que ele seja capaz de transcompilar nosso código de ES2015 (ES6) para ES5!
+    + O arquivo .babelrc deve estar no formato JSON e uma das exigências desse formato é usarmos aspas duplas para representar suas chaves, inclusive strings. 
+        {
+            "presets": ["es2015"]
+        }
+    + Não é recomendável instalar o Babel de forma global pois isso pode atrapalhar em outros projetos.
+    + Para facilitar a chamada do Babel no projeto adicionamos um comando script no package.json do projeto. Isso facilita a execução
+       + "build": "babel js/app-es6 -d js/app"
+    + Para facilitar a depuração de código de solução de bugs em tempo de execução o Babel permite fazer um mapeamento entre codigo compilado e código original;
+        + Adicionar --source-maps no comando do babel para que passe a funcionar o mapeamento
+        + Mas como ele funciona por baixo dos panos? O arquivo sourcemap possui a estrutura do arquivo original, aliás, 
+            **o arquivo original nem precisa existir em produção para que o sourcemap funcione**.
+        + Se abrirmos o arquivo aluraframe/client/js/app/controllers/NegociacaoController.js, nosso arquivo transcompilador, no final dele temos o seguinte comentário especial:
+            //# sourceMappingURL=NegociacaoController.js.map
+            Veja que esse comentário indica para o browser qual sourcemap deve ser carregado.
+        + Os arquivos sourcemaps serão baixados e se interferem no tempo de carregamento do site?
+            + Não. Sourcemaps são baixados apenas quando você abre o dev tools. Os arquivo só serão baixados se existirem.
+            
++ **Como funciona**
+    + Quando usamos Babel, estamos adicionando em nosso projeto um **build step**, ou seja, um passo de construção em nossa aplicação.
+    + Ela não pode ser consumida diretamente antes de passar por esse processo de construção.
+    
++ Instalação do Babel
+    + O Babel é um módulo do Node. Então para precisamos incluir alguma forma que comunicação entre o Node e nosso projeto cliente (front)
+    + Essa forma de comunicação acontece através de um arquivo chamado package.json.
+    + O Package.json é uma caderneta onde anotamos todos os módulos do Node que a nossa app vai utilizar
+    + Começamos inicializando o package.json no nosso projeto:
+        npm init
+    + Instalando o babel-cli. Módulo do babel que permite o uso do babel via console. Facilita para caramba. 
+        npm install babel-cli@6.10.1 --save-dev
+    + Foi criada a pasta node_modules
+    + Instalar o babel-cli não é suficiente, precisaremos instalar o suporte ao ES2015. Para isso, vamos instalar o módulo babel-preset-es2015:
+        npm install babel-preset-es2015@6.9.0 --save-dev
+    + Agora que temos os dois módulos instalados, precisamos indicar para o Babel que ele deve usar o módulo babel-preset-es2015. 
+    + Para isso, vamos criar o arquivo .babelrc dentro de client com a seguinte configuração:
+        {
+            "presets": ["es2015"]
+        }    
+                
+    
