@@ -236,8 +236,6 @@ as chamadas de tipo POST, PUT, DELETE
     
 ### Aula 06 - Uso de transpile - Babel
 
-+ 
-
 + EcmaScript 2009 = ES5 (muito antigo)
 + EcmaScript 2015 = ES6 (muitas novidades como classes, promisses, let, const, arrow functions, rest parameters, etc)
 
@@ -299,5 +297,58 @@ as chamadas de tipo POST, PUT, DELETE
         {
             "presets": ["es2015"]
         }    
-                
+
++ **Atenção** 
+    + O projeto não possui a pasta *node_modules* então precisará baixar as dependências abrindo o Terminal na pasta *client* e executar 
+    o comando npm install. 
+    + Este comando lerá seu arquivo package.json e baixará todas dependências listadas nele.
+
+### Aula 07 - Trabalhando com módulos do ES2015
+
++ Sistema de módulos do ES2015 vem para resolver os problemas do escopo global e do carregamento sequencial e em ordem de scripts;
++ A plataforma Node.js resolveu o problema dos import/export adotando padrão CommonJS para criação de módulos
+    + Ainda há bibliotecas como RequireJS que usam o padrão AMD (Assincronous Module Definition). 
+    + O ES2015 especificou seu próprio sistema de módulos que resolve tanto o escopo global como o carregamento de scripts.
++ No ES2015 todo script é um módulo por padrão;
+    + Se tivéssemos ativado o sistema de módulo do ES6, nenhuma definição de classe estaria no escopo global e a aplicação não funcionaria
+    
++ **System JS**
+    + Vamos definir como estes módulos devem ser carregados no navegador. 
+    + Precisamos que os scripts sejam carregados em uma determinada ordem no seu sistema, definindo apenas o primeiro. 
+    + A partir do primeiro módulo, serão carregados os demais. 
+    + O responsável pelo processo é loader, porém, não existe um padrão nos navegadores. 
+    + Vamos usar uma biblioteca de terceiro que atue como um loader de script. 
+    + Uma biblioteca muito famosa é System JS (também tem o WebPack)
+    
++ Instalação **System JS**
+    + Vamos baixá-lo pelo NPM do Node.JS, e iremos colocá-lo na pasta node_modules.
+    + Em seguida, vamos parar o Terminal. Dentro da pasta client, instalaremos o System JS.
+        npm install systemjs@0.19.31 --save
+    + O SystemJS é um script que precisa ser carregado com a aplicação em produção por isso precisa ser --save.
+    + Dentro da pasta node_modules encontraremos o systemjs. 
+    + Depois, importaremos o script no index.html, o arquivo ficará logo no início.
+
++ Usando o System JS
+    + Para usalo chamamos ele via um script no index.html
+    + Nesse script definimos qual será o primeiro módulo a ser carregado: boot.js
+    + Esse boot.js carregará o controller que chamará todos os outros módulos;
+
++ System JS e Babel
+    + Como estamos usando como loader o system.js, precisamos avisar ao Babel para que realize a transcompilação usando a sintaxe do mesmo arquivo para auxiliar a importação.
+    + O transpiler é importante neste processo porque ele mudará o código dos módulos para adequá-los ao loader. 
+    + Para isso instalaremos um plugin do Babel:
+        npm install babel-plugin-transform-es2015-modules-systemjs@6.9.0 --save-dev
+    + O plugin transforma o código do ES2015 para usar o SystemJS. É fundamental instalá-lo no Babel para que tudo funcione corretamente.
+    + Após fazermos a gravação do plugin, vamos configurar para que o Babel utilize o recurso recém instalado, no arquivo .babelrc .
+        {
+            "presets" : ["es2015"],
+            "plugins" : ["transform-es2015-modules-systemjs"]
+        }
+        
++ Não funcionam os ordenamentos nos cabecalhos da listagem
+    + Para isso aplicamos o Singleton e exportamos uma função que retorna a instancia do Controller. 
+    + Assim teremos uma única instância do Controller e poderemos atender diferentes pontos do sistema;  
+    + Depois, trabalharemos com a **delegação de eventos** para substituir o evento onclick dos cabecalhos.
+    + Quando clicarmos na coluna (na tag <th>), o JavaScript possui um sistema de eventos chamado **event bubbling**. 
+    + Ao clicarmos, o evento "subirá" até a tag <tr> - que é o pai - e seguirá subindo até o body
     
